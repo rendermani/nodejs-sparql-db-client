@@ -3,10 +3,10 @@ var driver = sparql.owlim;
 var SparqlClient = require ("sparql-db-client").Client; 
 
 
-var name = "Manuel";
+var name = "Pussy";
 var uri = "<urn:test:"+name.toLowerCase()+">";
-var host = "your host";
-var path = "/openrdf-sesame/repositories/myrepro";
+var host = "tomcat.cloudya.de";
+var path = "/openrdf-sesame/repositories/spinner";
 var port = 8881
 
 sparqlClient = new SparqlClient(host,path,port,driver);

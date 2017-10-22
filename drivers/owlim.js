@@ -1,30 +1,34 @@
 var querystring = require("querystring");
 module.exports = {
-	headers : 	{
-	        'content-type':'application/x-www-form-urlencoded' ,
-	        'accept':'application/sparql-results+json'
-	 },
 	update : {
+		headers : 	{
+	        'content-type':'application/x-turtle',
+	        'accept':'*/*'
+		},
 		method : "post",
-		getPath : function(path) {
+		getPath : function(path,query) {
 			return path + "/statements"
 		},
 		getQuery : function(query) {
 			return querystring.stringify({
-				"format" 	: "application/json",
-				"timeout" 	: 0,
-				"debug" 	: "on",
+				"timeout" 		: 5,
+				"debug" 		: "on",
 				"update"		: query
-			});
+			}).replace("'",'%27');
 		},
 		formatResult : function (resultString) {
- 			return { update: resultString};
+ 			if(resultString != "")  return { update :  { error : resultString, message : "sqarql update error"}};
+ 			else return {update : "ok"};
 		}
 	},
 	query : {
-		method : "post",
-		getPath : function(path) {
-			return path;
+		headers : 	{
+			'content-type' : 'x-www-form-urlencoded',
+	        'accept':'application/sparql-results+json'
+	 	},
+		method : "get",
+		getPath : function(path,query) {
+			return path+"?"+query;
 		},
 		getQuery : function(query) {
 			return querystring.stringify({
@@ -39,7 +43,7 @@ module.exports = {
 				var result = JSON.parse(resultString);	
 				return result.results.bindings;
 			} catch (err) {
-				return {error : resultString};
+				return {error : resultString, message : "Query Sqarql: JSON result parse error"};
 			}
 		}
 	}

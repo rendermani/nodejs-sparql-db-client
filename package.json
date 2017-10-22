@@ -1,0 +1,28 @@
+{
+  "name": "sparql-db-client",
+  "version": "1.0.0",
+  "description": "NodeJS Sqarql database client",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rendermani/nodejs-sparql-db-client.git"
+  },
+  "keywords": [
+    "sparql",
+    "rdf",
+    "database",
+    "client"
+  ],
+  "author": "Manuel Lautenschlager",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rendermani/nodejs-sparql-db-client/issues"
+  },
+  "homepage": "https://github.com/rendermani/nodejs-sparql-db-client#readme"
+}

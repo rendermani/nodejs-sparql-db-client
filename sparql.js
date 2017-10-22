@@ -1,52 +1,65 @@
 var owlim = require("./drivers/owlim.js");
 // http can be replaced with HTTPS
+var https = require("https");
 var http = require("http");
 var querystring = require("querystring");
 
-var SparqlClient = function(endpoint,path,port,driver,protocol) {
-	this.driver = driver;
-	this.endpoint = endpoint;
-	this.path = path;
-	this.port = port;
+var SparqlClient = function(config) {
+	this.config = config;
 	this.namespaces = "";
-	if(!protocol) this.protocol = http;
-	else this.protocol = protocol; 
+	if (!config.protocol) {
+		this.protocol = https;
+	} else this.protocol = config.protocol;
 }
-SparqlClient.prototype.addNamespaces = function(namespaces) {
-	this.namespaces += namespaces;
+SparqlClient.prototype.addNamespace = function(ns,prefix) {
+	this.namespaces += 'PREFIX '+prefix+':<'+ns+'> ';
 };
 SparqlClient.prototype.query = function(queryString,callback) {
-	this.request(queryString,this.driver.query,callback);
+	this.request(queryString,this.config.driver.query,callback);
 };
 SparqlClient.prototype.update = function(queryString,callback) {
-	this.request(queryString,this.driver.update,callback);
+	this.request(queryString,this.config.driver.update,callback);
 };
 SparqlClient.prototype.request = function(queryString,driver,callback) {
 	var self = this;
-	var r = this.protocol.request({
-			host: this.endpoint,
-			port: this.port,
-			path: driver.getPath(this.path)+'?'+driver.getQuery(queryString),
-			method: driver.method,
-			headers: this.driver.headers
-		}, function(res) {
-			 var data = "";
-			 res.on('data',
-			 		function(chunk){
-			 		data += chunk;
-		 	  });
-			 res.on('end',
-			 	function () {
-			 		callback(driver.formatResult(data));
-			 	});
-			 res.on('error',
-			 	function (err) {
-			 		console.log(err);
-			 	})
-			})
-	r.end(); 
+	var startTime = new Date().getTime();
+	var fullQuery = driver.getQuery(this.namespaces + queryString);
+	var r = http.request({
+		                              host: this.config.host,
+		                              port: this.config.port,
+		                              path: driver.getPath(this.config.path,fullQuery),
+		                              method: driver.method,
+		                              headers: driver.headers,
+		                              auth : this.config.auth
+	                              }, function(res) {
+		//console.log("headers res: ", res.headers);
+		//console.log("statusCode: ", res.statusCode);
+		var data = "";
+		res.on('data',
+		       function(chunk){
+			       data += chunk;
+		       });
+		res.on('end',
+		       function () {
+			        callback(driver.formatResult(data), queryString,
+			                {
+				                executionTime : new Date().getTime() - startTime
+			                });
+		       });
+		res.on('error',
+		       function (err) {
+			       console.log("error", err);
+			       callback({error:err,message : "connection-error"},queryString);
+		       })
+	})
+    r.on('error', function(e) {
+        console.log("problem with request:",e);
+});
+	//console.log("'"+fullQuery+"'");
+	if(driver.method.toLowerCase()=="post") r.end(queryString,'utf8');
+	else r.end();
 };
 SparqlClient.prototype.formatResult = function(result) {
-	return this.driver.format(result);
+	return this.config.driver.format(result);
 };
 module.exports.Client = SparqlClient;

@@ -1,0 +1,5 @@
+select ?label ?synonymLabel where {
+	?word s:synonym ?synonym .
+	?word rdfs:label ?label . 
+	?synonym rdfs:label ?synonymLabel
+}
