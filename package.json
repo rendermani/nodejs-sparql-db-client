@@ -1,28 +1,53 @@
 {
-  "name": "sparql-db-client",
-  "version": "1.0.0",
+  "_from": "git+https://github.com/rendermani/nodejs-sparql-db-client.git",
+  "_id": "sparql-db-client@1.0.0",
+  "_inBundle": false,
+  "_integrity": "sha1-rp+wRbpZUvxbFhtnhDcQrMefzkk=",
+  "_location": "/sparql-db-client",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "git",
+    "raw": "git+https://github.com/rendermani/nodejs-sparql-db-client.git",
+    "rawSpec": "git+https://github.com/rendermani/nodejs-sparql-db-client.git",
+    "saveSpec": "git+https://github.com/rendermani/nodejs-sparql-db-client.git",
+    "fetchSpec": "https://github.com/rendermani/nodejs-sparql-db-client.git",
+    "gitCommittish": "master"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "git+https://github.com/rendermani/nodejs-sparql-db-client.git#9bb43703a798e49d76d550f0dfab78ce30de3423",
+  "_spec": "git+https://github.com/rendermani/nodejs-sparql-db-client.git",
+  "_where": "/home/mani/ownCloud/Projects/finder",
+  "author": {
+    "name": "Manuel Lautenschlager"
+  },
+  "bugs": {
+    "url": "https://github.com/rendermani/nodejs-sparql-db-client/issues"
+  },
+  "bundleDependencies": false,
+  "deprecated": false,
   "description": "NodeJS Sqarql database client",
-  "main": "index.js",
   "directories": {
     "test": "test"
   },
-  "scripts": {
-    "test": "test.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/rendermani/nodejs-sparql-db-client.git"
-  },
+  "homepage": "https://github.com/rendermani/nodejs-sparql-db-client#readme",
   "keywords": [
     "sparql",
     "rdf",
     "database",
     "client"
   ],
-  "author": "Manuel Lautenschlager",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/rendermani/nodejs-sparql-db-client/issues"
+  "main": "index.js",
+  "name": "sparql-db-client",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rendermani/nodejs-sparql-db-client.git"
   },
-  "homepage": "https://github.com/rendermani/nodejs-sparql-db-client#readme"
+  "scripts": {
+    "test": "test.js"
+  },
+  "version": "1.0.0"
 }

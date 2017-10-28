@@ -1,4 +1,3 @@
-var owlim = require("./drivers/owlim.js");
 // http can be replaced with HTTPS
 var https = require("https");
 var http = require("http");
@@ -24,7 +23,7 @@ SparqlClient.prototype.request = function(queryString,driver,callback) {
 	var self = this;
 	var startTime = new Date().getTime();
 	var fullQuery = driver.getQuery(this.namespaces + queryString);
-	var r = http.request({
+	var r = this.protocol.request({
 		                              host: this.config.host,
 		                              port: this.config.port,
 		                              path: driver.getPath(this.config.path,fullQuery),
