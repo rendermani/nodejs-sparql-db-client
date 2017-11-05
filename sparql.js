@@ -47,12 +47,14 @@ SparqlClient.prototype.request = function(queryString,driver,callback) {
 		       });
 		res.on('error',
 		       function (err) {
+				   err.code = 500;
 			       console.log("error", err);
-			       callback({error:err,message : "connection-error"},queryString);
+			       callback({error:err,message : "sparql connection-error"},queryString);
 		       })
 	})
-    r.on('error', function(e) {
-        console.log("problem with request:",e);
+    r.on('error', function(err) {
+		err.code = 500;
+        callback({error:err,message : "sparql connection-error"},queryString);
 });
 	//console.log("'"+fullQuery+"'");
 	if(driver.method.toLowerCase()=="post") r.end(queryString,'utf8');
